@@ -6,13 +6,15 @@ import 'package:flutter_paypal_payment/src/paypal_service.dart';
 
 class PaypalCheckoutView extends StatefulWidget {
   final Function onSuccess, onCancel, onError;
-  final String? note, clientId, secretKey;
+  final String? note, clientId, secretKey, returnUrl, cancelUrl;
 
   final Widget? loadingIndicator;
   final List? transactions;
   final bool? sandboxMode;
   const PaypalCheckoutView({
     Key? key,
+    this.returnUrl,
+    this.cancelUrl,
     required this.onSuccess,
     required this.onError,
     required this.onCancel,
@@ -53,7 +55,7 @@ class PaypalCheckoutViewState extends State<PaypalCheckoutView> {
       "payer": {"payment_method": "paypal"},
       "transactions": widget.transactions,
       "note_to_payer": widget.note,
-      "redirect_urls": {"return_url": returnURL, "cancel_url": cancelURL}
+      "redirect_urls": {"return_url": widget.returnUrl ?? returnURL, "cancel_url": widget.cancelUrl ??cancelURL}
     };
     return temp;
   }
